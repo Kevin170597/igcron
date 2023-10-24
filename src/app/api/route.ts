@@ -5,7 +5,7 @@ export async function GET(request: Request) {
     /*try {
         const ig = new IgApiClient()
         ig.state.generateDevice("bullworth.pics")
-        const auth = await ig.account.login("bullworth.pics", "Pupoteamo40307572Bullworth")
+        const auth = await ig.account.login("", "")
         //console.log(JSON.stringify(auth))
 
         const imageBuffer = await get({
