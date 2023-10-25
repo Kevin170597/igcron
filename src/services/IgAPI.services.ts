@@ -9,7 +9,8 @@ export const igLogin = async (username: string, password: string) => {
 }
 
 export const createPost = async (username: string, urls: string[], caption: string) => {
-    await igLogin(username, process.env[`${username.toUpperCase()}_IG_PASSWORD`] as string)
+    const fixedName = username.split(".").join("").toUpperCase()
+    await igLogin(username, process.env[`${fixedName}_IG_PASSWORD`] as string)
 
     let imagesBuffer: { file: Buffer }[] = []
 
@@ -20,14 +21,15 @@ export const createPost = async (username: string, urls: string[], caption: stri
 
     const publishResult = await ig.publish.album({
         items: imagesBuffer,
-        caption: caption
+        caption
     })
 
     return publishResult
 }
 
 export const createStory = async (username: string, url: string) => {
-    await igLogin(username, process.env[`${username.toUpperCase()}_IG_PASSWORD`] as string)
+    const fixedName = username.split(".").join("").toUpperCase()
+    await igLogin(username, process.env[`${fixedName}_IG_PASSWORD`] as string)
 
     const imageBuffer = await get({
         url,
