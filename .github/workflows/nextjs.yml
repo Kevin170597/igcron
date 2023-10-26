@@ -24,12 +24,14 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+env:
+  BULLWORTHPICS_IG_PASSWORD: ${{secrets.BULLWORTPICS_IG_PASSWORD}}
+  MONGODB_URI: ${{secrets.MONGODB_URI}}
+
 jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
-    environment:
-      name: production
     steps:
       - name: Checkout
         uses: actions/checkout@v3
