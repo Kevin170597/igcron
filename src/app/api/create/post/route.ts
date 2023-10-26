@@ -1,6 +1,8 @@
 import { NextRequest } from "next/server"
 import { createPost, getProgrammedPost } from "@/services"
 
+export const runtime = "edge"
+
 export async function GET(request: NextRequest) {
     const username = request.nextUrl.searchParams.get("username") as string
     const day = request.nextUrl.searchParams.get("day") as string
