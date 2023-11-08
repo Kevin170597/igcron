@@ -1,2 +1,1 @@
-export * from "./igpost.interface"
-export * from "./igstory.interface"
+export * from "./post.interface"
