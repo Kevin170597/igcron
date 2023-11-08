@@ -14,7 +14,7 @@ export const getAlbums = async () => {
 }
 
 export const addAlbum = async (album: any) => {
-    const req = await fetch(`${process.env.BACK_URL}/posts/album/add`, {
+    const req = await fetch(`${NEXT_PUBLIC_BACK_URL}/posts/album/add`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
