@@ -53,8 +53,7 @@ export const CreateAlbumForm = () => {
         data.username = "bullworth.pics"
         data.day = moment(data.day).format("DD/MM/YYYY")
         data.urls = imagesUrls
-        const res = await addAlbum(data)
-        console.log(res)
+        await addAlbum(data)
     }
 
     return (

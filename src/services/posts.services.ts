@@ -1,6 +1,6 @@
-import { PostInterface } from "@/interfaces"
 
-const BACK_URL = process.env.BACK_URL
+const BACK_URL = process.env.BACK_URL as string
+const NEXT_PUBLIC_BACK_URL = process.env.NEXT_PUBLIC_BACK_URL
 
 export const getAlbum = async (id: string) => {
     const req = await fetch(`${BACK_URL}/posts/album/bullworth.pics/${id}`, { cache: "no-store" })
@@ -14,7 +14,7 @@ export const getAlbums = async () => {
 }
 
 export const addAlbum = async (album: any) => {
-    const req = await fetch(`${BACK_URL}/posts/album/add`, {
+    const req = await fetch(`${NEXT_PUBLIC_BACK_URL}/posts/album/add`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
