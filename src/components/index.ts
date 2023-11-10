@@ -1,3 +1,5 @@
-export * from './Input';
+export * from "./Input"
 export * from "./Select"
+export * from "./TextArea"
+export * from "./InputDate"
 export * from "./Icon"

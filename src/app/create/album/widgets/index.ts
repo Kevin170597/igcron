@@ -1,2 +1,4 @@
 export * from "./AlbumSlide"
-export * from "./CreateAlbumForm"
+export * from "./CreateAlbum"
+export * from "./ImagesManager"
+export * from "./CreateForm"

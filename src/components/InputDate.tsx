@@ -1,3 +1,4 @@
+
 interface Props {
     label?: string,
     inputType?: string,
@@ -10,7 +11,7 @@ interface Props {
     defaultValue?: string
 }
 
-export const Input = ({
+export const InputDate = ({
     label,
     inputType,
     placeholder,
@@ -33,7 +34,7 @@ export const Input = ({
             <div className="flex items-center rounded border border-solid border-[#383838] dark:border-border-dark px-2 mt-3 mb-4" style={errors && errors[name ? name : ""] && { border: "solid 1px red" }}>
                 <input
                     className="text-text-light-1 dark:text-text-dark-1 w-full px-2 rounded h-10 bg-inherit text-sm focus:outline-none placeholder:text-font-white-2"
-                    type={inputType ?? "text"}
+                    type="date"
                     placeholder={placeholder ?? ""}
                     defaultValue={defaultValue}
                     {...register && register(name, { required: required ?? false })}

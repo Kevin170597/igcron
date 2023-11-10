@@ -3,31 +3,50 @@ import { usePathname } from "next/navigation"
 import Link from "next/link"
 import { Icon } from "@/components"
 
+interface NavLinkProps {
+    href: string,
+    iconName: string,
+    text: string,
+    isActive: boolean
+}
+
+const NavLink = ({ href, iconName, text, isActive }: NavLinkProps) => (
+    <Link
+        href={href}
+        className={`h-full flex gap-2 items-center text-xs text-gray-300 
+        ${isActive ? "font-bold border-t-2" : ""}`}
+    >
+        <Icon
+            iconName={iconName}
+            fill={isActive ? "#fff" : "#808080"}
+            size={isActive ? 18 : 16}
+        />
+        {text}
+    </Link>
+)
+
 export const Navbar = () => {
     const pathname = usePathname()
     return (
         <nav className='h-12 gap-14 flex justify-center items-center border-t border-b border-[#383838] border-solid'>
-            <Link
+            <NavLink
                 href={"/posts"}
-                className={`${pathname === "/posts" ? "font-bold border-t-2" : ""} 
-                h-full flex gap-2 items-center text-xs text-gray-300`}>
-                <Icon iconName="grid" fill="#fff" size={16} />
-                ALBUMS
-            </Link>
-            <Link
+                iconName="grid"
+                text="ALBUMS"
+                isActive={pathname === "/posts"}
+            />
+            <NavLink
                 href={"/posts/photos"}
-                className={`${pathname === "/posts/photos" ? "font-bold border-t-2" : ""} 
-                h-full flex gap-2 items-center text-xs text-gray-300`}>
-                <Icon iconName="picture" fill="#fff" size={16} />
-                PHOTOS
-            </Link>
-            <Link
+                iconName="picture"
+                text="PHOTOS"
+                isActive={pathname === "/posts/photos"}
+            />
+            <NavLink
                 href={"/posts/stories"}
-                className={`${pathname === "/posts/stories" ? "font-bold border-t-2" : ""} 
-                h-full flex gap-2 items-center text-xs text-gray-300`}>
-                <Icon iconName="stories" fill="#fff" size={18} />
-                STORIES
-            </Link>
+                iconName="stories"
+                text="STORIES"
+                isActive={pathname === "/posts/stories"}
+            />
         </nav>
     )
 }
