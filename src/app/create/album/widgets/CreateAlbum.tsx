@@ -3,7 +3,7 @@ import { useState, ChangeEvent } from "react"
 import { ImagesManager } from "./ImagesManager"
 import { CreateForm } from "./CreateForm"
 import { ResultModal } from "./ResultModal"
-import { addAlbum, uploadImageToGithub } from "@/services"
+import { addPost, uploadImageToGithub } from "@/services"
 import { SubmitHandler } from "react-hook-form"
 import moment from "moment"
 
@@ -61,7 +61,7 @@ export const CreateAlbum = () => {
             data.username = "bullworth.pics"
             data.day = moment(data.day).format("DD/MM/YYYY")
             data.urls = imagesUrls
-            const res = await addAlbum(data)
+            const res = await addPost("album", data)
             formatJson(res)
             setSaving(false)
         } catch (error) {

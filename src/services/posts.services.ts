@@ -1,31 +1,33 @@
-const BACK_URL = process.env.BACK_URL as string
-const NEXT_PUBLIC_BACK_URL = process.env.NEXT_PUBLIC_BACK_URL
+const BACK_URL = process.env.BACK_URL_LOCAL as string
+const NEXT_PUBLIC_BACK_URL = process.env.NEXT_PUBLIC_BACK_URL_LOCAL
+
+type postType = "album" | "photo" | "story" | "reel"
 
 const fetchData = async (url: string, options?: RequestInit) => {
     const response = await fetch(url, { cache: "no-store", ...options })
     return await response.json()
 }
 
-export const getAlbum = async (id: string) => {
-    return await fetchData(`${BACK_URL}/posts/album/bullworth.pics/${id}`)
+export const getPost = async (type: postType, id: string) => {
+    return await fetchData(`${BACK_URL}/${type}/bullworth.pics/${id}`)
 }
 
-export const getAlbums = async () => {
-    return await fetchData(`${BACK_URL}/posts/album/all`)
+export const getPosts = async (type: postType) => {
+    return await fetchData(`${BACK_URL}/${type}/bullworth.pics/all`)
 }
 
-export const addAlbum = async (album: any) => {
-    return await fetchData(`${NEXT_PUBLIC_BACK_URL}/posts/album/add`, {
+export const addPost = async (type: postType, post: any) => {
+    return await fetchData(`${NEXT_PUBLIC_BACK_URL}/${type}/bullworth.pics/add`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(album)
+        body: JSON.stringify(post)
     })
 }
 
 export const updateAlbum = async (id: string, data: any) => {
-    return await fetchData(`${NEXT_PUBLIC_BACK_URL}/posts/album/update/${id}`, {
+    return await fetchData(`${NEXT_PUBLIC_BACK_URL}/album/update/${id}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -34,35 +36,11 @@ export const updateAlbum = async (id: string, data: any) => {
     })
 }
 
-/*export const getAlbum = async (id: string) => {
-    const req = await fetch(`${BACK_URL}/posts/album/bullworth.pics/${id}`, { cache: "no-store" })
-    const res = await req.json()
-    return res
-}
-
-export const getAlbums = async () => {
-    const req = await fetch(`${BACK_URL}/posts/album/all`, { cache: "no-store" })
-    return await req.json()
-}
-
-export const addAlbum = async (album: any) => {
-    const req = await fetch(`${NEXT_PUBLIC_BACK_URL}/posts/album/add`, {
-        method: 'POST',
+export const deleteAlbum = async (id: string) => {
+    return await fetchData(`${NEXT_PUBLIC_BACK_URL}/album/delete/${id}`, {
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(album)
+        }
     })
-    return await req.json()
 }
-
-export const updateAlbum = async (id: string, data: any) => {
-    const req = await fetch(`${BACK_URL}/posts/album/update/${id}`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    })
-    return await req.json()
-}*/

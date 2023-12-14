@@ -1,14 +1,14 @@
-import { AlbumCard } from './widgets/AlbumCard'
+import { AlbumOrPhotoCard } from '@/components'
 import type { Metadata } from 'next'
 import { PostInterface } from '@/interfaces'
-import { getAlbums } from '@/services'
+import { getPosts } from '@/services'
 
 export const metadata: Metadata = {
     title: "Albums"
 }
 
 const fetchAlbums = async (): Promise<PostInterface[]> => {
-    return await getAlbums()
+    return await getPosts("album")
 }
 
 export default async function Albums() {
@@ -17,7 +17,7 @@ export default async function Albums() {
     return (
         <div className="bg-black grid grid-cols-3 gap-1">
             {albums.length && albums.map((album) =>
-                <AlbumCard key={album._id} album={album} />
+                <AlbumOrPhotoCard key={album._id} albumOrPhoto={album} />
             )}
         </div>
     )

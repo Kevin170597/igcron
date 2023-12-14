@@ -1,7 +1,7 @@
 "use client"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
-import { Icon } from "@/components"
+import { Icon } from "../atoms/Icon"
 
 interface NavLinkProps {
     href: string,
@@ -25,7 +25,7 @@ const NavLink = ({ href, iconName, text, isActive }: NavLinkProps) => (
     </Link>
 )
 
-export const Navbar = () => {
+export const PostsNavbar = () => {
     const pathname = usePathname()
     return (
         <nav className='h-12 gap-14 flex justify-center items-center border-t border-b border-[#383838] border-solid'>
@@ -46,6 +46,12 @@ export const Navbar = () => {
                 iconName="stories"
                 text="STORIES"
                 isActive={pathname === "/posts/stories"}
+            />
+            <NavLink 
+                href={"/posts/reels"}
+                iconName="stories"
+                text="REELS"
+                isActive={pathname === "/posts/reels"}
             />
         </nav>
     )

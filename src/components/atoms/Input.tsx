@@ -7,7 +7,8 @@ interface Props {
     errors?: any,
     errorMessage?: string,
     name?: string,
-    defaultValue?: string
+    defaultValue?: string,
+    onChange?: any
 }
 
 export const Input = ({
@@ -19,7 +20,8 @@ export const Input = ({
     errors,
     errorMessage,
     name,
-    defaultValue
+    defaultValue,
+    onChange
 }: Props) => {
 
     return (
@@ -32,6 +34,7 @@ export const Input = ({
             </small>
             <div className="flex items-center rounded border border-solid border-[#383838] dark:border-border-dark px-2 mt-3 mb-4" style={errors && errors[name ? name : ""] && { border: "solid 1px red" }}>
                 <input
+                    onChange={onChange}
                     className="text-text-light-1 dark:text-text-dark-1 w-full px-2 rounded h-10 bg-inherit text-sm focus:outline-none placeholder:text-font-white-2"
                     type={inputType ?? "text"}
                     placeholder={placeholder ?? ""}

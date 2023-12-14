@@ -1,5 +1,4 @@
-import { Navbar } from "./widgets"
-import Link from "next/link"
+import { PostsNavbar } from "@/components"
 
 export default function RootLayout({
     children,
@@ -8,7 +7,7 @@ export default function RootLayout({
 }) {
     return (
         <div className="py-4">
-            <Navbar />
+            <PostsNavbar />
             {children}
         </div>
     )

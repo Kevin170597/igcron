@@ -2,7 +2,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Icon } from "@/components"
+import { Icon } from "../atoms/Icon"
 
 interface NavLinkProps {
     href: string,
@@ -56,7 +56,7 @@ export const Header = () => {
                 href="/posts"
                 iconName="grid"
                 text="POSTS"
-                isActive={pathname.includes("/posts")}
+                isActive={pathname.includes("/posts") || pathname.includes("/detail")}
             />
             <NavLink
                 href="/cron-jobs"
@@ -66,7 +66,7 @@ export const Header = () => {
             />
             <div className="relative z-10">
                 <CreateDropdown 
-                    isActive={pathname.includes("/create/album")}
+                    isActive={pathname.includes("/create")}
                     onClick={() => setCreateLinks(!createLinks)}
                 />
                 {createLinks &&
@@ -87,6 +87,12 @@ export const Header = () => {
                             href="/create/story"
                             iconName="picture"
                             text="STORY"
+                            isActive={false}
+                        />
+                        <NavLink 
+                            href="/create/reel"
+                            iconName="picture"
+                            text="REEL"
                             isActive={false}
                         />
                     </div>
