@@ -1,5 +1,6 @@
 export * from "./CreateStoryForm"
 export * from "./CreateReelFrom"
 export * from "./CreatePhotoForm"
+export * from "./CreateAlbumForm"
 export * from "./Header"
 export * from "./PostsNavbar"
