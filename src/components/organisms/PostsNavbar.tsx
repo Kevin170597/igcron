@@ -30,28 +30,28 @@ export const PostsNavbar = () => {
     return (
         <nav className='h-12 gap-14 flex justify-center items-center border-t border-b border-[#383838] border-solid'>
             <NavLink
-                href={"/posts"}
+                href={"/scheduled/posts/album"}
                 iconName="grid"
                 text="ALBUMS"
-                isActive={pathname === "/posts"}
+                isActive={pathname === "/scheduled/posts/album"}
             />
             <NavLink
-                href={"/posts/photos"}
+                href={"/scheduled/posts/photos"}
                 iconName="picture"
                 text="PHOTOS"
-                isActive={pathname === "/posts/photos"}
+                isActive={pathname === "/scheduled/posts/photos"}
             />
             <NavLink
-                href={"/posts/stories"}
+                href={"/scheduled/posts/stories"}
                 iconName="stories"
                 text="STORIES"
-                isActive={pathname === "/posts/stories"}
+                isActive={pathname === "/scheduled/posts/stories"}
             />
             <NavLink 
-                href={"/posts/reels"}
+                href={"/scheduled/posts/reels"}
                 iconName="stories"
                 text="REELS"
-                isActive={pathname === "/posts/reels"}
+                isActive={pathname === "/scheduled/posts/reels"}
             />
         </nav>
     )

@@ -8,7 +8,7 @@ export const AlbumOrPhotoCard = ({ albumOrPhoto }: { albumOrPhoto: PostInterface
     const router = useRouter()
 
     return (
-        <div onClick={() => router.push(`/detail/${albumOrPhoto.type}/${albumOrPhoto._id}`)} className="cursor-pointer hover:opacity-80 relative">
+        <div onClick={() => router.push(`/scheduled/detail/${albumOrPhoto.type}/${albumOrPhoto._id}`)} className="cursor-pointer hover:opacity-80 relative">
             {albumOrPhoto.urls &&
             <Image
                 className="w-full aspect-square object-cover"

@@ -8,7 +8,7 @@ export const StoryCard = ({ story }: { story: PostInterface }) => {
     const router = useRouter()
 
     return (
-        <div onClick={() => router.push(`/detail/story/${story._id}`)} className="cursor-pointer hover:opacity-80 relative">
+        <div onClick={() => router.push(`/scheduled/detail/story/${story._id}`)} className="cursor-pointer hover:opacity-80 relative">
             {story.hour &&
                 <Image 
                     className="w-full object-cover"

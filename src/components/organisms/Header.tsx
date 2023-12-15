@@ -53,7 +53,7 @@ export const Header = () => {
     return (
         <header className="h-12 px-4 flex gap-6 items-center border-b border-b-solid border-b-[#383838]">
             <NavLink
-                href="/posts"
+                href="/scheduled/posts/album"
                 iconName="grid"
                 text="POSTS"
                 isActive={pathname.includes("/posts") || pathname.includes("/detail")}
@@ -72,25 +72,25 @@ export const Header = () => {
                 {createLinks &&
                     <div className="absolute top-11 bg-[#262626] py-3 px-4 rounded flex flex-col gap-3 border border-solid border-[#383838]">
                         <NavLink
-                            href="/create/album"
+                            href="/scheduled/create/album"
                             iconName="picture"
                             text="ALBUM"
                             isActive={false}
                         />
                         <NavLink
-                            href="/create/photo"
+                            href="/scheduled/create/photo"
                             iconName="picture"
                             text="PHOTO"
                             isActive={false}
                         />
                         <NavLink
-                            href="/create/story"
+                            href="/scheduled/create/story"
                             iconName="picture"
                             text="STORY"
                             isActive={false}
                         />
                         <NavLink
-                            href="/create/reel"
+                            href="/scheduled/create/reel"
                             iconName="picture"
                             text="REEL"
                             isActive={false}

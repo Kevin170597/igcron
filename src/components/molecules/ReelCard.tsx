@@ -8,7 +8,7 @@ export const ReelCard = ({ reel }: { reel: PostInterface }) => {
     const router = useRouter()
 
     return (
-        <div onClick={() => router.push(`/detail/reel/${reel._id}`)} className="cursor-pointer hover:opacity-80 relative">
+        <div onClick={() => router.push(`/scheduled/detail/reel/${reel._id}`)} className="cursor-pointer hover:opacity-80 relative">
             {reel.hour &&
                 <video src={reel.url}></video>
             }
