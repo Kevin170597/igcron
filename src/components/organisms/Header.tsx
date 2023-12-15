@@ -3,6 +3,8 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Icon } from "../atoms/Icon"
+import { useUser } from "@/app/AuthProvider"
+import Image from "next/image"
 
 interface NavLinkProps {
     href: string,
@@ -46,6 +48,31 @@ const CreateDropdown = ({ isActive, onClick }: CreateDropdownProps) => (
     </button>
 )
 
+const User = () => {
+    const { loggedUser, logout } = useUser()
+
+    return (
+        <>
+            {loggedUser &&
+                <div className="ml-auto flex items-center gap-2">
+                    <Image
+                        src={loggedUser.profile_pic_url}
+                        width={10}
+                        height={10}
+                        alt="flag"
+                        className="w-6 h-6 rounded-full"
+                    />
+                    <p className="text-sm">{loggedUser.username}</p>
+                    <p className="text-[#797979]">|</p>
+                    <button onClick={() => logout()}>
+                        <Icon iconName="logout" fill="#fff" size={20} />
+                    </button>
+                </div>
+            }
+        </>
+    )
+}
+
 export const Header = () => {
     const pathname = usePathname()
     const [createLinks, setCreateLinks] = useState<boolean>(false)
@@ -53,7 +80,7 @@ export const Header = () => {
     return (
         <header className="h-12 px-4 flex gap-6 items-center border-b border-b-solid border-b-[#383838]">
             <NavLink
-                href="/posts"
+                href="/scheduled/posts/album"
                 iconName="grid"
                 text="POSTS"
                 isActive={pathname.includes("/posts") || pathname.includes("/detail")}
@@ -72,25 +99,25 @@ export const Header = () => {
                 {createLinks &&
                     <div className="absolute top-11 bg-[#262626] py-3 px-4 rounded flex flex-col gap-3 border border-solid border-[#383838]">
                         <NavLink
-                            href="/create/album"
+                            href="/scheduled/create/album"
                             iconName="picture"
                             text="ALBUM"
                             isActive={false}
                         />
                         <NavLink
-                            href="/create/photo"
+                            href="/scheduled/create/photo"
                             iconName="picture"
                             text="PHOTO"
                             isActive={false}
                         />
                         <NavLink
-                            href="/create/story"
+                            href="/scheduled/create/story"
                             iconName="picture"
                             text="STORY"
                             isActive={false}
                         />
                         <NavLink
-                            href="/create/reel"
+                            href="/scheduled/create/reel"
                             iconName="picture"
                             text="REEL"
                             isActive={false}
@@ -98,6 +125,7 @@ export const Header = () => {
                     </div>
                 }
             </div>
+            <User />
         </header>
     )
 }
