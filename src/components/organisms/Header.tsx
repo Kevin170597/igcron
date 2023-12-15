@@ -58,38 +58,38 @@ export const Header = () => {
                 text="POSTS"
                 isActive={pathname.includes("/posts") || pathname.includes("/detail")}
             />
-            <NavLink
+            {/*<NavLink
                 href="/cron-jobs"
                 iconName="clock"
                 text="CRON JOBS"
                 isActive={pathname.includes("/cron-jobs")}
-            />
-            <div className="relative z-10">
-                <CreateDropdown 
+            />*/}
+            <div className="relative z-20">
+                <CreateDropdown
                     isActive={pathname.includes("/create")}
                     onClick={() => setCreateLinks(!createLinks)}
                 />
                 {createLinks &&
                     <div className="absolute top-11 bg-[#262626] py-3 px-4 rounded flex flex-col gap-3 border border-solid border-[#383838]">
-                        <NavLink 
+                        <NavLink
                             href="/create/album"
                             iconName="picture"
                             text="ALBUM"
                             isActive={false}
                         />
-                        <NavLink 
+                        <NavLink
                             href="/create/photo"
                             iconName="picture"
                             text="PHOTO"
                             isActive={false}
                         />
-                        <NavLink 
+                        <NavLink
                             href="/create/story"
                             iconName="picture"
                             text="STORY"
                             isActive={false}
                         />
-                        <NavLink 
+                        <NavLink
                             href="/create/reel"
                             iconName="picture"
                             text="REEL"
