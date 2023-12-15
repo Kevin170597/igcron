@@ -3,6 +3,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Icon } from "../atoms/Icon"
+import { useUser } from "@/app/scheduled/authProvider"
 
 interface NavLinkProps {
     href: string,
@@ -47,6 +48,7 @@ const CreateDropdown = ({ isActive, onClick }: CreateDropdownProps) => (
 )
 
 export const Header = () => {
+    const { loggedUser } = useUser()
     const pathname = usePathname()
     const [createLinks, setCreateLinks] = useState<boolean>(false)
 
@@ -98,6 +100,11 @@ export const Header = () => {
                     </div>
                 }
             </div>
+            {loggedUser && loggedUser.username ? (
+                <p className="ml-auto text-sm">{loggedUser.username}</p>
+            ) : (
+                "not user"
+            )}
         </header>
     )
 }
