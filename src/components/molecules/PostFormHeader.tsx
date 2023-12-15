@@ -10,7 +10,7 @@ export const PostFormHeader = ({ type }: { type: string }) => {
             />
             <p className="text-sm">bullworth.pics</p>
             <p className="text-sm ml-auto text-[#47a797] bg-[#383838] px-2 py-1 rounded">
-                New {type}
+                {type}
             </p>
         </div>
     )
