@@ -59,7 +59,7 @@ export const CreateAlbumForm = () => {
                 {!isUrlsListVisible &&
                     <button
                         onClick={() => setUrlsVisibility(true)}
-                        className="absolute top-2 right-2 bg-[#262626] w-6 h-6 rounded-full flex items-center justify-center">
+                        className="z-10 absolute top-2 right-2 bg-[#262626] w-6 h-6 rounded-full flex items-center justify-center">
                         <Icon iconName="arrowDown" fill="#fff" size={20} />
                     </button>
                 }
@@ -99,11 +99,19 @@ export const CreateAlbumForm = () => {
                 }
                 {items && items[0] &&
                     <div>
-                        <img
-                            src={items[currentIndex]}
-                            alt="story image"
-                            className="w-auto h-full object-cover"
-                        />
+                        {items && items[currentIndex] && items[currentIndex].slice(-3) === 'jpg' ?
+                            <img
+                                src={items[currentIndex]}
+                                alt="story image"
+                                className="w-auto h-full object-cover"
+                            />
+                            :
+                            <video
+                                src={items[currentIndex]}
+                                controls
+                                className="w-auto h-full object-cover"
+                            />
+                        }
                         <button
                             className="absolute top-[50%] left-2 w-6 h-6 rounded-full flex items-center justify-center bg-[#383838]"
                             onClick={prevImage}>
