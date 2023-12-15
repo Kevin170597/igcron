@@ -1,5 +1,5 @@
 const BACK_URL = process.env.BACK_URL as string
-const NEXT_PUBLIC_BACK_URL = process.env.NEXT_PUBLIC_BACK_URL
+const NEXT_PUBLIC_BACK_URL = process.env.NEXT_PUBLIC_BACK_URL as string
 
 type postType = "album" | "photo" | "story" | "reel"
 
