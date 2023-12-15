@@ -2,6 +2,7 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { Input } from "../atoms"
 import { instagramLogin } from "@/services"
+import { useUser } from "@/app/AuthProvider"
 
 type Inputs = {
     username: string,
@@ -9,13 +10,14 @@ type Inputs = {
 }
 
 export const IGLoginForm = () => {
+    const { setUserData } = useUser()
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         console.log(data)
         const user = await instagramLogin(data.username, data.password)
         console.log(user)
-        localStorage.setItem("igLoggedUser", JSON.stringify(user))
+        setUserData(user)
     }
 
     return (

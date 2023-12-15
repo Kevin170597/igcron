@@ -3,7 +3,8 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Icon } from "../atoms/Icon"
-import { useUser } from "@/app/scheduled/authProvider"
+import { useUser } from "@/app/AuthProvider"
+import Image from "next/image"
 
 interface NavLinkProps {
     href: string,
@@ -47,8 +48,32 @@ const CreateDropdown = ({ isActive, onClick }: CreateDropdownProps) => (
     </button>
 )
 
+const User = () => {
+    const { loggedUser, logout } = useUser()
+
+    return (
+        <>
+            {loggedUser &&
+                <div className="ml-auto flex items-center gap-2">
+                    <Image
+                        src={loggedUser.profile_pic_url}
+                        width={10}
+                        height={10}
+                        alt="flag"
+                        className="w-6 h-6 rounded-full"
+                    />
+                    <p className="text-sm">{loggedUser.username}</p>
+                    <p className="text-[#797979]">|</p>
+                    <button onClick={() => logout()}>
+                        <Icon iconName="logout" fill="#fff" size={20} />
+                    </button>
+                </div>
+            }
+        </>
+    )
+}
+
 export const Header = () => {
-    const { loggedUser } = useUser()
     const pathname = usePathname()
     const [createLinks, setCreateLinks] = useState<boolean>(false)
 
@@ -100,11 +125,7 @@ export const Header = () => {
                     </div>
                 }
             </div>
-            {loggedUser && loggedUser.username ? (
-                <p className="ml-auto text-sm">{loggedUser.username}</p>
-            ) : (
-                "not user"
-            )}
+            <User />
         </header>
     )
 }

@@ -1,6 +1,4 @@
 import { Header } from '@/components'
-import type { Metadata } from 'next'
-import { UserProvider } from './authProvider'
 
 export default function RootLayout({
     children,
@@ -9,10 +7,8 @@ export default function RootLayout({
 }) {
     return (
         <div>
-            <UserProvider>
-                <Header />
-                {children}
-            </UserProvider>
+            <Header />
+            {children}
         </div>
     )
 }

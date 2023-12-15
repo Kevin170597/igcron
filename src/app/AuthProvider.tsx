@@ -2,12 +2,14 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
 
 interface UserData {
-    username: string
+    username: string,
+    profile_pic_url: string
 }
 
 interface UserContextProps {
     loggedUser: UserData | null
-    setUserData: (userData: UserData) => void
+    setUserData: (userData: UserData) => void,
+    logout: () => void
 }
 
 const UserContext = createContext<undefined | UserContextProps>(undefined)
@@ -20,15 +22,20 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         localStorage.setItem("loggedUser", JSON.stringify(userData))
     }
 
+    const logout = () => {
+        localStorage.removeItem("loggedUser")
+        setLoggedUser(null)
+    }
+
     useEffect(() => {
-        const storedUserData = localStorage.getItem("igLoggedUser")
+        const storedUserData = localStorage.getItem("loggedUser")
         if (storedUserData) {
             setLoggedUser(JSON.parse(storedUserData))
         }
     }, [])
 
     const contextValue: UserContextProps = {
-        loggedUser, setUserData
+        loggedUser, setUserData, logout
     }
 
     return (
