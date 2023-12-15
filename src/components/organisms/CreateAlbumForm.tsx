@@ -1,10 +1,10 @@
 "use client"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { Input, InputDate, Select, Textarea } from "../atoms"
+import { Input, InputDate, Select, Textarea, Icon } from "../atoms"
+import { PostFormHeader } from "../molecules"
 import { useState, ChangeEvent } from "react"
 import { addPost } from "@/services"
 import moment from "moment"
-import { Icon } from "../atoms"
 
 type Inputs = {
     caption: string,
@@ -126,14 +126,7 @@ export const CreateAlbumForm = () => {
                 }
             </div>
             <div className="w-[50%] p-4 border-l border-l-solid border-l-[#383838]">
-                <div className="flex items-center gap-2 mb-6">
-                    <img
-                        src="https://raw.githubusercontent.com/Kevin170597/my-drive/main/bully.jpg"
-                        alt="profile"
-                        className="w-6 h-6 rounded-full"
-                    />
-                    <p className="text-sm">bullworth.pics</p>
-                </div>
+                <PostFormHeader type="Album" />
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Textarea
                         name="caption"
