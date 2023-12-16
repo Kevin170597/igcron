@@ -11,16 +11,16 @@ const handler = NextAuth({
                 password: { label: "Contraseña", type: "password" , placeholder: "password" }
             },
             async authorize(credentials, req) {
-                const user = await instagramLogin(credentials?.username as string, credentials?.password as string)
+                console.log(14, credentials)
+                const user: any = await instagramLogin(credentials?.username as string, credentials?.password as string)
                 
-                if (user) {
-                    return user
-                } else {
-                    return null
-                }
+                console.log(17, user)
+                //if (user.error) throw new Error(user.error)
+                return user
             }
         })
     ],
+    secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
         jwt: async ({ token, user }) => {
             return { ...token, ...user }
@@ -29,6 +29,9 @@ const handler = NextAuth({
             session.user = token as any
             return session
         }
+    },
+    pages: {
+        signIn: "/login"
     }
 })
 

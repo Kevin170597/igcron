@@ -3,7 +3,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Icon } from "../atoms/Icon"
-import { useSession } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 import Image from "next/image"
 
 interface NavLinkProps {
@@ -67,7 +67,7 @@ const User = () => {
                     />
                     <p className="text-sm">{session.user.username}</p>
                     <p className="text-[#797979]">|</p>
-                    <button >
+                    <button onClick={() => signOut()}>
                         <Icon iconName="logout" fill="#fff" size={20} />
                     </button>
                 </div>

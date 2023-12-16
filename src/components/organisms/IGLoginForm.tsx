@@ -1,8 +1,8 @@
 "use client"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { Input } from "../atoms"
-import { instagramLogin } from "@/services"
-import { useUser } from "@/app/AuthProvider"
+import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 type Inputs = {
     username: string,
@@ -10,14 +10,22 @@ type Inputs = {
 }
 
 export const IGLoginForm = () => {
-    const { setUserData } = useUser()
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
+    const router = useRouter()
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        console.log(data)
-        const user = await instagramLogin(data.username, data.password)
-        console.log(user)
-        setUserData(user)
+        //console.log(data)
+        const responseNextAuth = await signIn("credentials", {
+            username: data.username, password: data.password, redirect: false
+        })
+
+        console.log(25, responseNextAuth)
+
+        if (responseNextAuth?.error) {
+            console.log(responseNextAuth.error.split(","))
+            return
+        }
+        router.push("/scheduled/posts/album")
     }
 
     return (
