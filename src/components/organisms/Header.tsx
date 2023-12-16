@@ -3,7 +3,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Icon } from "../atoms/Icon"
-import { useUser } from "@/app/AuthProvider"
+import { useSession, signOut } from "next-auth/react"
 import Image from "next/image"
 
 interface NavLinkProps {
@@ -49,22 +49,25 @@ const CreateDropdown = ({ isActive, onClick }: CreateDropdownProps) => (
 )
 
 const User = () => {
-    const { loggedUser, logout } = useUser()
+    const { data: session, status } = useSession()
 
     return (
         <>
-            {loggedUser &&
+            {status === "loading" &&
+                <p className="ml-auto">...</p>
+            }
+            {session && session.user &&
                 <div className="ml-auto flex items-center gap-2">
                     <Image
-                        src={loggedUser.profile_pic_url}
+                        src={session.user.profile_pic_url}
                         width={10}
                         height={10}
                         alt="flag"
                         className="w-6 h-6 rounded-full"
                     />
-                    <p className="text-sm">{loggedUser.username}</p>
+                    <p className="text-sm">{session.user.username}</p>
                     <p className="text-[#797979]">|</p>
-                    <button onClick={() => logout()}>
+                    <button onClick={() => signOut()}>
                         <Icon iconName="logout" fill="#fff" size={20} />
                     </button>
                 </div>
