@@ -1,0 +1,10 @@
+@keyframes rotate360 {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.rotate-360 {
+    animation: rotate360 1s linear infinite;
+    transform-origin: center;
+}

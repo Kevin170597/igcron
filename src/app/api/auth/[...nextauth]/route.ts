@@ -15,7 +15,7 @@ const handler = NextAuth({
                 const user: any = await instagramLogin(credentials?.username as string, credentials?.password as string)
                 
                 console.log(17, user)
-                //if (user.error) throw new Error(user.error)
+                if (user.error) throw new Error(user.error)
                 return user
             }
         })
