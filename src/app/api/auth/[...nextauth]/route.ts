@@ -23,7 +23,6 @@ const handler = NextAuth({
     ],
     callbacks: {
         jwt: async ({ token, user }) => {
-            console.log(26, { ...token, ...user })
             return { ...token, ...user }
         },
         session: ({ session, token }) => {
