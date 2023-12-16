@@ -19,7 +19,6 @@ export const IGLoginForm = () => {
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         setLoading(true)
-        //console.log(data)
         const responseNextAuth = await signIn("credentials", {
             username: data.username, password: data.password, redirect: false
         })
