@@ -6,7 +6,10 @@ import { UserProvider } from "./AuthProvider"
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "Instagrapy"
+  title: "Instagrapy",
+  icons: { 
+    icon: { url: "/favicon.png", type: "image/png" } 
+  }
 }
 
 export default function RootLayout({
