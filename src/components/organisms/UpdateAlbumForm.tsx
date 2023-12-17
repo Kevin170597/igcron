@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { Input, InputDate, Select, Textarea, Icon } from "../atoms"
 import { PostFormHeader } from "../molecules"
 import { useState, ChangeEvent } from "react"
-import { addPost } from "@/services"
+import { updatePost } from "@/services"
 import { PostInterface } from "@/interfaces"
 import moment from "moment"
 
@@ -50,8 +50,8 @@ export const UpdateAlbumForm = ({ album }: { album: PostInterface}) => {
         data.urls = items
         data.username = "bullworth.pics"
         data.day = moment(data.day).format("DD/MM/YYYY")
-        console.log(data)
-        await addPost("photo", data)
+        //console.log(data)
+        await updatePost("album", album._id, data)
     }
 
     return (

@@ -2,7 +2,7 @@
 import { Select, Input } from "@/components"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { PostInterface } from "@/interfaces"
-import { updateAlbum } from "@/services"
+import { updatePost } from "@/services"
 
 type Inputs = {
     caption: string,
@@ -14,7 +14,7 @@ export const AlbumUpdateForm = ({ album }: { album: PostInterface }) => {
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         console.log(data)
-        await updateAlbum(album._id, data)
+        await updatePost("album", album._id, data)
     }
 
     return (

@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { Input, InputDate, Select } from "../atoms"
 import { PostFormHeader } from "../molecules"
 import { useState, ChangeEvent } from "react"
-import { addPost } from "@/services"
+import { updatePost } from "@/services"
 import { PostInterface } from "@/interfaces"
 import moment from "moment"
 
@@ -23,8 +23,8 @@ export const UpdateStoryForm = ({ story }: { story: PostInterface}) => {
 		data.url = imageUrl
 		data.username = "bullworth.pics"
 		data.day = moment(data.day).format("DD/MM/YYYY")
-		console.log(data)
-		await addPost("story", data)
+		//console.log(data)
+		await updatePost("story", story._id, data)
 	}
 
 	return (

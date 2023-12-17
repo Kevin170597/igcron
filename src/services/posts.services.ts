@@ -26,8 +26,8 @@ export const addPost = async (type: postType, post: any) => {
     })
 }
 
-export const updateAlbum = async (id: string, data: any) => {
-    return await fetchData(`${NEXT_PUBLIC_BACK_URL}/album/update/${id}`, {
+export const updatePost = async (type: postType, id: string, data: any) => {
+    return await fetchData(`${NEXT_PUBLIC_BACK_URL}/${type}/update/${id}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -36,8 +36,8 @@ export const updateAlbum = async (id: string, data: any) => {
     })
 }
 
-export const deleteAlbum = async (id: string) => {
-    return await fetchData(`${NEXT_PUBLIC_BACK_URL}/album/delete/${id}`, {
+export const deletePost = async (type: postType, id: string) => {
+    return await fetchData(`${NEXT_PUBLIC_BACK_URL}/${type}/delete/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
