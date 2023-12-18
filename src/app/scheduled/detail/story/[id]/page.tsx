@@ -22,7 +22,7 @@ export default async function StoryDetail({ params }: { params: { id: string } }
 	const story = await fetchStory(params.id)
 
 	return (
-		<div className="h-[90vh] flex items-center justify-center">
+		<div className="h-[90vh] flex md:items-center md:justify-center">
 			<UpdateStoryForm story={story} />
 		</div>
 	)

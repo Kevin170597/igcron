@@ -31,7 +31,7 @@ export const AlbumOrPhotoCard = ({ albumOrPhoto }: { albumOrPhoto: PostInterface
                 priority={true}
             />
             }
-            <p className="flex items-center gap-1 text-xs text-slate-700 bg-slate-200 absolute bottom-2 right-2 p-1 rounded">
+            <p className="flex items-center gap-1 text-[10px] sm:text-[10px] md:text-xs lg:text-xs text-slate-700 bg-slate-200 absolute bottom-2 right-2 p-1 rounded">
                 <Icon iconName="clock" fill="#303030" size={14} />
                 {albumOrPhoto.day} {albumOrPhoto.hour}
             </p>

@@ -15,12 +15,12 @@ type Inputs = {
     urls: string[]
 }
 
-export const UpdateAlbumForm = ({ album }: { album: PostInterface}) => {
+export const UpdateAlbumForm = ({ album }: { album: PostInterface }) => {
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
 
     const [currentIndex, setCurrentIndex] = useState<number>(0)
     const [items, setItems] = useState<string[]>(album.urls || [''])
-    const [isUrlsListVisible, setUrlsVisibility] = useState<boolean>(true)
+    const [isUrlsListVisible, setUrlsVisibility] = useState<boolean>(false)
 
     const addInput = () => {
         setItems([...items, ''])
@@ -55,8 +55,9 @@ export const UpdateAlbumForm = ({ album }: { album: PostInterface}) => {
     }
 
     return (
-        <div className="bg-[#262626] rounded border border-solid border-[#383838] flex h-[80%] w-[60%]">
-            <div className="w-[50%] relative flex justify-center">
+        <div className="bg-[#262626] rounded border border-solid border-[#383838] 
+        flex flex-col sm:flex-col md:flex-row lg:flex-row h-fit sm:h-fit md:h-[80%] lg:h-[80%] w-full sm:w-full md:w-[60%] lg:w-[60%]">
+            <div className="w-full sm:w-full md:w-[50%] lg:w-[50%] relative flex justify-center">
                 {!isUrlsListVisible &&
                     <button
                         onClick={() => setUrlsVisibility(true)}
@@ -126,7 +127,7 @@ export const UpdateAlbumForm = ({ album }: { album: PostInterface}) => {
                     </div>
                 }
             </div>
-            <div className="w-[50%] p-4 border-l border-l-solid border-l-[#383838]">
+            <div className="w-full sm:w-full md:w-[50%] lg:w-[50%] p-4 border-l border-l-solid border-l-[#383838]">
                 <PostFormHeader type="Album" />
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Textarea

@@ -22,7 +22,7 @@ export default async function AlbumDetail({ params }: { params: { id: string } }
     const album = await fetchAlbum(params.id)
 
     return (
-        <div className="h-[90vh] flex items-center justify-center">
+        <div className="h-[90vh] flex md:items-center md:justify-center">
             <UpdateAlbumForm album={album} />
         </div>
     )

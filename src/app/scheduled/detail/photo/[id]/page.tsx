@@ -22,7 +22,7 @@ export default async function PhotoDetail({ params }: { params: { id: string } }
     const photo = await fetchPhoto(params.id)
 
     return (
-        <div className="h-[90vh] flex items-center justify-center">
+        <div className="h-[90vh] flex md:items-center md:justify-center">
             <UpdatePhotoForm photo={photo} />
         </div>
     )

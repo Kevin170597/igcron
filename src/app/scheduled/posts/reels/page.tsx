@@ -15,7 +15,7 @@ export default async function Reels() {
     const reels = await fetchReels()
 
     return (
-        <div className="bg-black grid grid-cols-5 gap-1">
+        <div className="bg-black grid grid-cols-3 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-5 gap-1">
             {reels.map((reel) =>
                 <ReelCard key={reel._id} reel={reel} />
             )}

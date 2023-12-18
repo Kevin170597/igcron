@@ -28,8 +28,9 @@ export const UpdateStoryForm = ({ story }: { story: PostInterface}) => {
 	}
 
 	return (
-		<div className="bg-[#262626] rounded border border-solid border-[#383838] flex h-[80%] w-[60%]">
-			<div className="w-[35%] relative flex justify-center">
+		<div className="bg-[#262626] rounded border border-solid border-[#383838] 
+        flex flex-col sm:flex-col md:flex-row lg:flex-row h-fit sm:h-fit md:h-[80%] lg:h-[80%] w-full sm:w-full md:w-[60%] lg:w-[60%]">
+			<div className="w-full sm:w-full md:w-[35%] lg:w-[35%] relative flex justify-center">
 				<div className="w-[90%] px-4 rounded absolute top-2 bg-[#262626]">
 					<Input
                         defaultValue={story.url}
@@ -46,7 +47,7 @@ export const UpdateStoryForm = ({ story }: { story: PostInterface}) => {
 					/>
 				}
 			</div>
-			<div className="w-[65%] p-4 border-l border-l-solid border-l-[#383838]">
+			<div className="w-full sm:w-full md:w-[65%] lg:w-[65%] p-4 border-l border-l-solid border-l-[#383838]">
 				<PostFormHeader type="Story"  />
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<InputDate

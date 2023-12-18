@@ -22,7 +22,7 @@ export default async function ReelDetail({ params }: { params: { id: string } })
     const reel = await fetchReel(params.id)
 
     return (
-        <div className="h-[90vh] flex items-center justify-center">
+        <div className="h-[90vh] flex md:items-center md:justify-center">
             <UpdateReelForm reel={reel} />
         </div>
     )

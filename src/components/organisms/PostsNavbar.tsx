@@ -28,7 +28,7 @@ const NavLink = ({ href, iconName, text, isActive }: NavLinkProps) => (
 export const PostsNavbar = () => {
     const pathname = usePathname()
     return (
-        <nav className='h-12 gap-14 flex justify-center items-center border-t border-b border-[#383838] border-solid'>
+        <nav className='h-12 gap-6 sm:gap-6 md:gap-14 lg:gap-14 flex justify-center items-center border-t border-b border-[#383838] border-solid'>
             <NavLink
                 href={"/scheduled/posts/album"}
                 iconName="grid"

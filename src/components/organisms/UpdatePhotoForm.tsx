@@ -28,8 +28,9 @@ export const UpdatePhotoForm = ({ photo }: { photo: PostInterface}) => {
     }
 
     return (
-        <div className="bg-[#262626] rounded border border-solid border-[#383838] flex h-[80%] w-[60%]">
-            <div className="w-[50%] relative flex justify-center">
+        <div className="bg-[#262626] rounded border border-solid border-[#383838] 
+        flex flex-col sm:flex-col md:flex-row lg:flex-row h-fit sm:h-fit md:h-[80%] lg:h-[80%] w-full sm:w-full md:w-[60%] lg:w-[60%]">
+            <div className="w-full sm:w-full md:w-[50%] lg:w-[50%] relative flex justify-center">
                 <div className="w-[90%] px-4 rounded absolute top-2 bg-[#262626]">
                     <Input
                         defaultValue={photo.url}
@@ -46,7 +47,7 @@ export const UpdatePhotoForm = ({ photo }: { photo: PostInterface}) => {
                     />
                 }
             </div>
-            <div className="w-[50%] p-4 border-l border-l-solid border-l-[#383838]">
+            <div className="w-full sm:w-full md:w-[50%] lg:w-[50%] p-4 border-l border-l-solid border-l-[#383838]">
                 <PostFormHeader type="Photo" />
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Textarea
