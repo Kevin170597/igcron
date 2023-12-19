@@ -10,7 +10,8 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         title: album.caption ? album.caption : `Album - ${album.day}`,
         icons: {
             icon: "https://raw.githubusercontent.com/Kevin170597/my-drive/main/bully.jpg"
-        }
+        },
+        description: album.caption ? album.caption : `Album - ${album.day}`
     }
 }
 

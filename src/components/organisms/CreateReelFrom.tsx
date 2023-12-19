@@ -1,6 +1,6 @@
 "use client"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { Input, InputDate, Select, Textarea } from "../atoms"
+import { Input, InputDate, Select, Textarea, Icon } from "../atoms"
 import { PostFormHeader } from "../molecules"
 import { useState, ChangeEvent } from "react"
 import { addPost } from "@/services"
@@ -17,6 +17,7 @@ type Inputs = {
 export const CreateReelForm = () => {
 	const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
 	const [videoUrl, setVideoUrl] = useState<string>("")
+	const [isUrlListVisible, setUrlVisibility] = useState<boolean>(true)
 
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
 		data.url = videoUrl
@@ -29,16 +30,31 @@ export const CreateReelForm = () => {
 	return (
 		<div className="bg-[#262626] rounded border border-solid border-[#383838] flex h-[80%] w-[60%]">
 			<div className="w-[35%] relative flex justify-center">
-				<div className="w-[90%] px-4 rounded absolute top-2 z-10 bg-[#262626]">
-					<Input
-						name="url"
-						placeholder="https://example.com"
-						onChange={(e: ChangeEvent<HTMLInputElement>) => setVideoUrl(e.target.value)}
-					/>
-				</div>
+				{!isUrlListVisible &&
+					<button
+						onClick={() => setUrlVisibility(true)}
+						className="z-10 absolute top-2 right-2 bg-[#262626] w-6 h-6 rounded-full flex items-center justify-center">
+						<Icon iconName="arrowDown" fill="#fff" size={20} />
+					</button>
+				}
+				{isUrlListVisible &&
+					<div className="w-[90%] px-4 rounded absolute top-2 z-10 pb-4 bg-[#262626] border border-solid border-[#383838]">
+						<Input
+							name="url"
+							placeholder="https://example.com"
+							onChange={(e: ChangeEvent<HTMLInputElement>) => setVideoUrl(e.target.value)}
+						/>
+						<button
+                            onClick={() => setUrlVisibility(false)}
+                            className="bg-[#383838] w-6 h-6 rounded-full flex items-center justify-center"
+                        >
+                            <Icon iconName="arrowUp" fill="#fff" size={20} />
+                        </button>
+					</div>
+				}
 				{videoUrl &&
 					<video
-                        controls
+						controls
 						src={videoUrl}
 						className="w-auto h-full object-cover"
 					/>
@@ -47,11 +63,11 @@ export const CreateReelForm = () => {
 			<div className="w-[65%] p-4 border-l border-l-solid border-l-[#383838]">
 				<PostFormHeader type="Reel" />
 				<form onSubmit={handleSubmit(onSubmit)}>
-                    <Textarea 
-                        name="caption"
-                        register={register}
-                        required
-                    />
+					<Textarea
+						name="caption"
+						register={register}
+						required
+					/>
 					<InputDate
 						label="Day"
 						name="day"

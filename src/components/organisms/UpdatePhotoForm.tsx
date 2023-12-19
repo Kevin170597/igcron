@@ -1,6 +1,6 @@
 "use client"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { Input, InputDate, Select, Textarea } from "../atoms"
+import { Input, InputDate, Select, Textarea, Icon } from "../atoms"
 import { PostFormHeader } from "../molecules"
 import { useState, ChangeEvent } from "react"
 import { updatePost } from "@/services"
@@ -15,9 +15,10 @@ type Inputs = {
     url: string
 }
 
-export const UpdatePhotoForm = ({ photo }: { photo: PostInterface}) => {
+export const UpdatePhotoForm = ({ photo }: { photo: PostInterface }) => {
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
     const [imageUrl, setImageUrl] = useState<string>(photo.url || "")
+    const [isUrlListVisible, setUrlVisibility] = useState<boolean>(false)
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         data.url = imageUrl
@@ -31,14 +32,29 @@ export const UpdatePhotoForm = ({ photo }: { photo: PostInterface}) => {
         <div className="bg-[#262626] rounded border border-solid border-[#383838] 
         flex flex-col sm:flex-col md:flex-row lg:flex-row h-fit sm:h-fit md:h-[80%] lg:h-[80%] w-full sm:w-full md:w-[60%] lg:w-[60%]">
             <div className="w-full sm:w-full md:w-[50%] lg:w-[50%] relative flex justify-center">
-                <div className="w-[90%] px-4 rounded absolute top-2 bg-[#262626]">
-                    <Input
-                        defaultValue={photo.url}
-                        name="url"
-                        placeholder="https://example.com"
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setImageUrl(e.target.value)}
-                    />
-                </div>
+                {!isUrlListVisible &&
+                    <button
+                        onClick={() => setUrlVisibility(true)}
+                        className="z-10 absolute top-2 right-2 bg-[#262626] w-6 h-6 rounded-full flex items-center justify-center">
+                        <Icon iconName="arrowDown" fill="#fff" size={20} />
+                    </button>
+                }
+                {isUrlListVisible &&
+                    <div className="w-[90%] px-4 rounded absolute top-2 pb-4 bg-[#262626] border border-solid border-[#383838]">
+                        <Input
+                            defaultValue={photo.url}
+                            name="url"
+                            placeholder="https://example.com"
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => setImageUrl(e.target.value)}
+                        />
+                        <button
+                            onClick={() => setUrlVisibility(false)}
+                            className="bg-[#383838] w-6 h-6 rounded-full flex items-center justify-center"
+                        >
+                            <Icon iconName="arrowUp" fill="#fff" size={20} />
+                        </button>
+                    </div>
+                }
                 {imageUrl &&
                     <img
                         src={imageUrl}

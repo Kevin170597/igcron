@@ -10,7 +10,8 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         title: reel.caption ? reel.caption : `Reel - ${reel.day}`,
         icons: {
             icon: "https://raw.githubusercontent.com/Kevin170597/my-drive/main/bully.jpg"
-        }
+        },
+        description: reel.caption ? reel.caption : `Reel - ${reel.day}`
     }
 }
 

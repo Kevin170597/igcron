@@ -1,6 +1,6 @@
 "use client"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { Input, InputDate, Select } from "../atoms"
+import { Input, InputDate, Select, Icon } from "../atoms"
 import { PostFormHeader } from "../molecules"
 import { useState, ChangeEvent } from "react"
 import { updatePost } from "@/services"
@@ -15,9 +15,10 @@ type Inputs = {
 	url: string
 }
 
-export const UpdateStoryForm = ({ story }: { story: PostInterface}) => {
+export const UpdateStoryForm = ({ story }: { story: PostInterface }) => {
 	const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
 	const [imageUrl, setImageUrl] = useState<string>(story.url || "")
+	const [isUrlListVisible, setUrlVisibility] = useState<boolean>(false)
 
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
 		data.url = imageUrl
@@ -31,14 +32,29 @@ export const UpdateStoryForm = ({ story }: { story: PostInterface}) => {
 		<div className="bg-[#262626] rounded border border-solid border-[#383838] 
         flex flex-col sm:flex-col md:flex-row lg:flex-row h-fit sm:h-fit md:h-[80%] lg:h-[80%] w-full sm:w-full md:w-[60%] lg:w-[60%]">
 			<div className="w-full sm:w-full md:w-[35%] lg:w-[35%] relative flex justify-center">
-				<div className="w-[90%] px-4 rounded absolute top-2 bg-[#262626]">
-					<Input
-                        defaultValue={story.url}
-						name="url"
-						placeholder="https://example.com"
-						onChange={(e: ChangeEvent<HTMLInputElement>) => setImageUrl(e.target.value)}
-					/>
-				</div>
+				{!isUrlListVisible &&
+					<button
+						onClick={() => setUrlVisibility(true)}
+						className="z-10 absolute top-2 right-2 bg-[#262626] w-6 h-6 rounded-full flex items-center justify-center">
+						<Icon iconName="arrowDown" fill="#fff" size={20} />
+					</button>
+				}
+				{isUrlListVisible &&
+					<div className="w-[90%] px-4 rounded absolute top-2 pb-4 bg-[#262626] border border-solid border-[#383838]">
+						<Input
+							defaultValue={story.url}
+							name="url"
+							placeholder="https://example.com"
+							onChange={(e: ChangeEvent<HTMLInputElement>) => setImageUrl(e.target.value)}
+						/>
+						<button
+                            onClick={() => setUrlVisibility(false)}
+                            className="bg-[#383838] w-6 h-6 rounded-full flex items-center justify-center"
+                        >
+                            <Icon iconName="arrowUp" fill="#fff" size={20} />
+                        </button>
+					</div>
+				}
 				{imageUrl &&
 					<img
 						src={imageUrl}
@@ -48,10 +64,10 @@ export const UpdateStoryForm = ({ story }: { story: PostInterface}) => {
 				}
 			</div>
 			<div className="w-full sm:w-full md:w-[65%] lg:w-[65%] p-4 border-l border-l-solid border-l-[#383838]">
-				<PostFormHeader type="Story"  />
+				<PostFormHeader type="Story" />
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<InputDate
-                        defaultValue={moment(story.day, "DD/MM/YYYY").format("YYYY-MM-DD")}
+						defaultValue={moment(story.day, "DD/MM/YYYY").format("YYYY-MM-DD")}
 						label="Day"
 						name="day"
 						register={register}
@@ -59,7 +75,7 @@ export const UpdateStoryForm = ({ story }: { story: PostInterface}) => {
 					/>
 					<Select
 						inputType="select"
-                        defaultValue={story.hour}
+						defaultValue={story.hour}
 						label="Hour"
 						name="hour"
 						required
