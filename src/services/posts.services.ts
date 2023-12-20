@@ -8,19 +8,31 @@ const fetchData = async (url: string, options?: RequestInit) => {
     return await response.json()
 }
 
-export const getPost = async (type: postType, id: string) => {
-    return await fetchData(`${BACK_URL}/${type}/bullworth.pics/${id}`)
+export const getPost = async (type: postType, username: string, token:string, id: string) => {
+    return await fetchData(`${NEXT_PUBLIC_BACK_URL}/${type}/${username}/${id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": token
+        }
+    })
 }
 
-export const getPosts = async (type: postType) => {
-    return await fetchData(`${BACK_URL}/${type}/bullworth.pics/all`)
+export const getPosts = async (type: postType, username: string, token: string) => {
+    return await fetchData(`${NEXT_PUBLIC_BACK_URL}/${type}/${username}/all`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": token
+        }
+    })
 }
 
 export const addPost = async (type: postType, post: any) => {
     return await fetchData(`${NEXT_PUBLIC_BACK_URL}/${type}/bullworth.pics/add`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
         },
         body: JSON.stringify(post)
     })
@@ -28,9 +40,9 @@ export const addPost = async (type: postType, post: any) => {
 
 export const updatePost = async (type: postType, id: string, data: any) => {
     return await fetchData(`${NEXT_PUBLIC_BACK_URL}/${type}/update/${id}`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
         },
         body: JSON.stringify(data)
     })
@@ -38,9 +50,9 @@ export const updatePost = async (type: postType, id: string, data: any) => {
 
 export const deletePost = async (type: postType, id: string) => {
     return await fetchData(`${NEXT_PUBLIC_BACK_URL}/${type}/delete/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
         }
     })
 }

@@ -2,10 +2,11 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { Input, InputDate, Select, Textarea, Icon } from "../atoms"
 import { PostFormHeader } from "../molecules"
-import { useState, ChangeEvent } from "react"
-import { updatePost } from "@/services"
+import { useState, ChangeEvent, useEffect } from "react"
+import { updatePost, getPost } from "@/services"
 import { PostInterface } from "@/interfaces"
 import moment from "moment"
+import { useSession } from "next-auth/react"
 
 type Inputs = {
     caption: string,
@@ -15,12 +16,25 @@ type Inputs = {
     urls: string[]
 }
 
-export const UpdateAlbumForm = ({ album }: { album: PostInterface }) => {
+export const UpdateAlbumForm = ({ id }: { id: string }) => {
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
+    const { data: session } = useSession()
 
+    const [album, setAlbum] = useState<PostInterface | null>(null)
     const [currentIndex, setCurrentIndex] = useState<number>(0)
-    const [items, setItems] = useState<string[]>(album.urls || [''])
+    const [items, setItems] = useState<string[]>(album?.urls || [''])
     const [isUrlsListVisible, setUrlsVisibility] = useState<boolean>(false)
+
+    useEffect(() => {
+        const fetchPost = async () => {
+            if (session && session.user) {
+                const album = await getPost("album", session.user.username, session.user.token, id)
+                setAlbum(album)
+                setItems(album.urls)
+            }
+        }
+        fetchPost()
+    }, [session])
 
     const addInput = () => {
         setItems([...items, ''])
@@ -48,10 +62,10 @@ export const UpdateAlbumForm = ({ album }: { album: PostInterface }) => {
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         data.urls = items
-        data.username = "bullworth.pics"
+        data.username = session?.user.username as string
         data.day = moment(data.day).format("DD/MM/YYYY")
         //console.log(data)
-        await updatePost("album", album._id, data)
+        await updatePost("album", id, data)
     }
 
     return (
@@ -129,35 +143,37 @@ export const UpdateAlbumForm = ({ album }: { album: PostInterface }) => {
             </div>
             <div className="w-full sm:w-full md:w-[50%] lg:w-[50%] p-4 border-l border-l-solid border-l-[#383838]">
                 <PostFormHeader type="Album" />
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <Textarea
-                        defaultValue={album.caption}
-                        name="caption"
-                        register={register}
-                        required
-                    />
-                    <InputDate
-                        defaultValue={moment(album.day, "DD/MM/YYYY").format("YYYY-MM-DD")}
-                        label="Day"
-                        name="day"
-                        register={register}
-                        required
-                    />
-                    <Select
-                        inputType="select"
-                        defaultValue={album.hour}
-                        label="Hour"
-                        name="hour"
-                        required
-                        register={register}
-                        options={[{ optionLabel: "16:00", optionValue: "16:00" }, { optionLabel: "19:00", optionValue: "19:00" }]}
-                    />
-                    <button
-                        type="submit"
-                        className="bg-slate-200 text-sm text-black rounded px-2 mt-auto ml-auto py-2">
-                        Save
-                    </button>
-                </form>
+                {album &&
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <Textarea
+                            defaultValue={album?.caption}
+                            name="caption"
+                            register={register}
+                            required
+                        />
+                        <InputDate
+                            defaultValue={moment(album?.day, "DD/MM/YYYY").format("YYYY-MM-DD")}
+                            label="Day"
+                            name="day"
+                            register={register}
+                            required
+                        />
+                        <Select
+                            inputType="select"
+                            defaultValue={album?.hour}
+                            label="Hour"
+                            name="hour"
+                            required
+                            register={register}
+                            options={[{ optionLabel: "16:00", optionValue: "16:00" }, { optionLabel: "19:00", optionValue: "19:00" }]}
+                        />
+                        <button
+                            type="submit"
+                            className="bg-slate-200 text-sm text-black rounded px-2 mt-auto ml-auto py-2">
+                            Save
+                        </button>
+                    </form>
+                }
             </div>
         </div>
     )

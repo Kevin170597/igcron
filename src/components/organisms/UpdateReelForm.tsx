@@ -2,10 +2,11 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { Input, InputDate, Select, Textarea, Icon } from "../atoms"
 import { PostFormHeader } from "../molecules"
-import { useState, ChangeEvent } from "react"
-import { updatePost } from "@/services"
+import { useState, ChangeEvent, useEffect } from "react"
+import { updatePost, getPost } from "@/services"
 import { PostInterface } from "@/interfaces"
 import moment from "moment"
+import { useSession } from "next-auth/react"
 
 type Inputs = {
     caption: string,
@@ -15,17 +16,31 @@ type Inputs = {
     url: string
 }
 
-export const UpdateReelForm = ({ reel }: { reel: PostInterface }) => {
+export const UpdateReelForm = ({ id }: { id: string }) => {
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
-    const [videoUrl, setVideoUrl] = useState<string>(reel.url || "")
+    const { data: session } = useSession()
+
+    const [reel, setReel] = useState<PostInterface | null>(null)
+    const [videoUrl, setVideoUrl] = useState<string>(reel?.url || "")
     const [isUrlListVisible, setUrlVisibility] = useState<boolean>(false)
+
+    useEffect(() => {
+        const fetchPost = async () => {
+            if (session && session.user) {
+                const reel = await getPost("reel", session.user.username, session.user.token, id)
+                setReel(reel)
+                setVideoUrl(reel.url)
+            }
+        }
+        fetchPost()
+    }, [session])
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         data.url = videoUrl
-        data.username = "bullworth.pics"
+        data.username = session?.user.username as string
         data.day = moment(data.day).format("DD/MM/YYYY")
         //console.log(data)
-        await updatePost("reel", reel._id, data)
+        await updatePost("reel", id, data)
     }
 
     return (
@@ -42,7 +57,7 @@ export const UpdateReelForm = ({ reel }: { reel: PostInterface }) => {
                 {isUrlListVisible &&
                     <div className="w-[90%] px-4 rounded absolute top-2 z-10 pb-4 bg-[#262626] border border-solid border-[#383838]">
                         <Input
-                            defaultValue={reel.url}
+                            defaultValue={reel?.url}
                             name="url"
                             placeholder="https://example.com"
                             onChange={(e: ChangeEvent<HTMLInputElement>) => setVideoUrl(e.target.value)}
@@ -65,35 +80,37 @@ export const UpdateReelForm = ({ reel }: { reel: PostInterface }) => {
             </div>
             <div className="w-full sm:w-full md:w-[65%] lg:w-[65%] p-4 border-l border-l-solid border-l-[#383838]">
                 <PostFormHeader type="Reel" />
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <Textarea
-                        defaultValue={reel.caption}
-                        name="caption"
-                        register={register}
-                        required
-                    />
-                    <InputDate
-                        defaultValue={moment(reel.day, "DD/MM/YYYY").format("YYYY-MM-DD")}
-                        label="Day"
-                        name="day"
-                        register={register}
-                        required
-                    />
-                    <Select
-                        inputType="select"
-                        defaultValue={reel.hour}
-                        label="Hour"
-                        name="hour"
-                        required
-                        register={register}
-                        options={[{ optionLabel: "16:00", optionValue: "16:00" }, { optionLabel: "19:00", optionValue: "19:00" }]}
-                    />
-                    <button
-                        type="submit"
-                        className="bg-slate-200 text-sm text-black rounded px-2 mt-auto ml-auto py-2">
-                        Save
-                    </button>
-                </form>
+                {reel &&
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <Textarea
+                            defaultValue={reel?.caption}
+                            name="caption"
+                            register={register}
+                            required
+                        />
+                        <InputDate
+                            defaultValue={moment(reel?.day, "DD/MM/YYYY").format("YYYY-MM-DD")}
+                            label="Day"
+                            name="day"
+                            register={register}
+                            required
+                        />
+                        <Select
+                            inputType="select"
+                            defaultValue={reel?.hour}
+                            label="Hour"
+                            name="hour"
+                            required
+                            register={register}
+                            options={[{ optionLabel: "16:00", optionValue: "16:00" }, { optionLabel: "19:00", optionValue: "19:00" }]}
+                        />
+                        <button
+                            type="submit"
+                            className="bg-slate-200 text-sm text-black rounded px-2 mt-auto ml-auto py-2">
+                            Save
+                        </button>
+                    </form>
+                }
             </div>
         </div>
     )

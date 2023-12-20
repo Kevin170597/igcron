@@ -2,10 +2,11 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { Input, InputDate, Select, Icon } from "../atoms"
 import { PostFormHeader } from "../molecules"
-import { useState, ChangeEvent } from "react"
-import { updatePost } from "@/services"
+import { useState, ChangeEvent, useEffect } from "react"
+import { updatePost, getPost } from "@/services"
 import { PostInterface } from "@/interfaces"
 import moment from "moment"
+import { useSession } from "next-auth/react"
 
 type Inputs = {
 	caption: string,
@@ -15,17 +16,31 @@ type Inputs = {
 	url: string
 }
 
-export const UpdateStoryForm = ({ story }: { story: PostInterface }) => {
+export const UpdateStoryForm = ({ id }: { id: string }) => {
 	const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
-	const [imageUrl, setImageUrl] = useState<string>(story.url || "")
+	const { data: session } = useSession()
+
+	const [story, setStory] = useState<PostInterface | null>(null)
+	const [imageUrl, setImageUrl] = useState<string>(story?.url || "")
 	const [isUrlListVisible, setUrlVisibility] = useState<boolean>(false)
+
+	useEffect(() => {
+		const fetchPost = async () => {
+			if (session && session.user) {
+				const story = await getPost("story", session.user.username, session.user.token, id)
+				setStory(story)
+				setImageUrl(story.url)
+			}
+		}
+		fetchPost()
+	}, [session])
 
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
 		data.url = imageUrl
-		data.username = "bullworth.pics"
+		data.username = session?.user.username as string
 		data.day = moment(data.day).format("DD/MM/YYYY")
 		//console.log(data)
-		await updatePost("story", story._id, data)
+		await updatePost("story", id, data)
 	}
 
 	return (
@@ -42,17 +57,17 @@ export const UpdateStoryForm = ({ story }: { story: PostInterface }) => {
 				{isUrlListVisible &&
 					<div className="w-[90%] px-4 rounded absolute top-2 pb-4 bg-[#262626] border border-solid border-[#383838]">
 						<Input
-							defaultValue={story.url}
+							defaultValue={story?.url}
 							name="url"
 							placeholder="https://example.com"
 							onChange={(e: ChangeEvent<HTMLInputElement>) => setImageUrl(e.target.value)}
 						/>
 						<button
-                            onClick={() => setUrlVisibility(false)}
-                            className="bg-[#383838] w-6 h-6 rounded-full flex items-center justify-center"
-                        >
-                            <Icon iconName="arrowUp" fill="#fff" size={20} />
-                        </button>
+							onClick={() => setUrlVisibility(false)}
+							className="bg-[#383838] w-6 h-6 rounded-full flex items-center justify-center"
+						>
+							<Icon iconName="arrowUp" fill="#fff" size={20} />
+						</button>
 					</div>
 				}
 				{imageUrl &&
@@ -65,29 +80,31 @@ export const UpdateStoryForm = ({ story }: { story: PostInterface }) => {
 			</div>
 			<div className="w-full sm:w-full md:w-[65%] lg:w-[65%] p-4 border-l border-l-solid border-l-[#383838]">
 				<PostFormHeader type="Story" />
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<InputDate
-						defaultValue={moment(story.day, "DD/MM/YYYY").format("YYYY-MM-DD")}
-						label="Day"
-						name="day"
-						register={register}
-						required
-					/>
-					<Select
-						inputType="select"
-						defaultValue={story.hour}
-						label="Hour"
-						name="hour"
-						required
-						register={register}
-						options={[{ optionLabel: "16:00", optionValue: "16:00" }, { optionLabel: "19:00", optionValue: "19:00" }]}
-					/>
-					<button
-						type="submit"
-						className="bg-slate-200 text-sm text-black rounded px-2 mt-auto ml-auto py-2">
-						Save
-					</button>
-				</form>
+				{story &&
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<InputDate
+							defaultValue={moment(story?.day, "DD/MM/YYYY").format("YYYY-MM-DD")}
+							label="Day"
+							name="day"
+							register={register}
+							required
+						/>
+						<Select
+							inputType="select"
+							defaultValue={story?.hour}
+							label="Hour"
+							name="hour"
+							required
+							register={register}
+							options={[{ optionLabel: "16:00", optionValue: "16:00" }, { optionLabel: "19:00", optionValue: "19:00" }]}
+						/>
+						<button
+							type="submit"
+							className="bg-slate-200 text-sm text-black rounded px-2 mt-auto ml-auto py-2">
+							Save
+						</button>
+					</form>
+				}
 			</div>
 		</div>
 	)
