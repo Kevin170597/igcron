@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { ListAlbums } from "@/components"
+import { ListPosts } from "@/components"
 
 export const metadata: Metadata = {
     title: "Albums"
@@ -9,7 +9,7 @@ export default function Albums() {
 
     return (
         <div className="bg-black">
-            <ListAlbums />
+            <ListPosts type="album" />
         </div>
     )
 }

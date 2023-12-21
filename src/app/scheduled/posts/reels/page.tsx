@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { ListReels } from "@/components"
+import { ListPosts } from "@/components"
 
 export const metadata: Metadata = {
     title: "Reels"
@@ -9,7 +9,7 @@ export default function Reels() {
 
     return (
         <div className="bg-black">
-            <ListReels />
+            <ListPosts type="reel" />
         </div>
     )
 } 
