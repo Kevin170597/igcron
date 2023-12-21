@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { CreateReelForm } from "@/components"
+import { CreatePostForm } from "@/components"
 
 export const metadata: Metadata = {
     title: "Program Reel"
@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 export default function CreateReel() {
 
     return (
-        <div className="h-[90vh] flex items-center justify-center">
-            <CreateReelForm />
+        <div className="h-[90vh] flex md:items-center md:justify-center">
+            <CreatePostForm type="reel" />
         </div>
     )
 }

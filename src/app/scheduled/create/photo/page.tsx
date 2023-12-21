@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { CreatePhotoForm } from "@/components"
+import { CreatePostForm } from "@/components"
 
 export const metadata: Metadata = {
     title: "Program Photo"
@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 export default function CreatePhoto() {
 
     return (
-        <div className="h-[90vh] flex items-center justify-center">
-            <CreatePhotoForm />
+        <div className="h-[90vh] flex md:items-center md:justify-center">
+            <CreatePostForm type="photo" />
         </div>
     )
 }
