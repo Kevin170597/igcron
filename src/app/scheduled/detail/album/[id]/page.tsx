@@ -1,10 +1,10 @@
-import { UpdateAlbumForm } from "@/components"
+import { UpdatePostForm } from "@/components"
 
 export default async function AlbumDetail({ params }: { params: { id: string } }) {
 
     return (
         <div className="h-[90vh] flex md:items-center md:justify-center">
-            <UpdateAlbumForm id={params.id} />
+            <UpdatePostForm type="album" id={params.id} />
         </div>
     )
 }

@@ -2,10 +2,11 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { InputDate, Select, Textarea } from "../atoms"
 import { PostFormHeader, URLController, URLSController, RenderMedia } from "../molecules"
-import { useState } from "react"
-import { addPost } from "@/services"
+import { useState, useEffect } from "react"
+import { addPost, getPost } from "@/services"
 import moment from "moment"
 import { useSession } from "next-auth/react"
+import { PostInterface } from "@/interfaces"
 
 type PostType = "album" | "photo" | "story" | "reel"
 
@@ -18,12 +19,25 @@ type Inputs = {
     url?: string
 }
 
-export const CreatePostForm = ({ type }: { type: PostType }) => {
+export const UpdatePostForm = ({ type, id }: { type: PostType, id: string }) => {
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
     const { data: session } = useSession()
 
-    const [url, setUrl] = useState<string>("")
-    const [items, setItems] = useState<string[]>([''])
+    const [post, setPost] = useState<PostInterface | null>(null)
+    const [url, setUrl] = useState<string>(post?.url || "")
+    const [items, setItems] = useState<string[]>(post?.urls || [""])
+
+    useEffect(() => {
+        const fetchPost = async () => {
+            if (session && session.user) {
+                const post = await getPost(type, session.user.username, session.user.token, id)
+                setPost(post)
+                if (type === "album") setItems(post.urls)
+                else setUrl(post.url)
+            }
+        }
+        fetchPost()
+    }, [session])
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         type === "album" ? data.urls = items : data.url = url
@@ -61,18 +75,21 @@ export const CreatePostForm = ({ type }: { type: PostType }) => {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {type !== "story" &&
                         <Textarea
+                            defaultValue={post?.caption}
                             name="caption"
                             register={register}
                             required
                         />
                     }
                     <InputDate
+                        defaultValue={moment(post?.day, "DD/MM/YYYY").format("YYYY-MM-DD")}
                         label="Day"
                         name="day"
                         register={register}
                         required
                     />
                     <Select
+                        defaultValue={post?.hour}
                         inputType="select"
                         label="Hour"
                         name="hour"
