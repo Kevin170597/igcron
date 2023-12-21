@@ -62,7 +62,7 @@ export const UpdatePostForm = ({ type, id }: { type: PostType, id: string }) => 
                     </>
                 ) : (
                     <>
-                        <URLController setUrl={setUrl} />
+                        <URLController setUrl={setUrl} url={url} />
                         <RenderMedia type={type} image={url} />
                     </>
                 )}
@@ -72,37 +72,39 @@ export const UpdatePostForm = ({ type, id }: { type: PostType, id: string }) => 
                 ${(type === "story" || type === "reel") && "md:w-[65%] lg:w-[65%]"}`}
             >
                 <PostFormHeader type={type} />
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    {type !== "story" &&
-                        <Textarea
-                            defaultValue={post?.caption}
-                            name="caption"
+                {post &&
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        {type !== "story" &&
+                            <Textarea
+                                defaultValue={post?.caption}
+                                name="caption"
+                                register={register}
+                                required
+                            />
+                        }
+                        <InputDate
+                            defaultValue={moment(post?.day, "DD/MM/YYYY").format("YYYY-MM-DD")}
+                            label="Day"
+                            name="day"
                             register={register}
                             required
                         />
-                    }
-                    <InputDate
-                        defaultValue={moment(post?.day, "DD/MM/YYYY").format("YYYY-MM-DD")}
-                        label="Day"
-                        name="day"
-                        register={register}
-                        required
-                    />
-                    <Select
-                        defaultValue={post?.hour}
-                        inputType="select"
-                        label="Hour"
-                        name="hour"
-                        required
-                        register={register}
-                        options={[{ optionLabel: "16:00", optionValue: "16:00" }, { optionLabel: "19:00", optionValue: "19:00" }]}
-                    />
-                    <button
-                        type="submit"
-                        className="bg-slate-200 text-sm text-black rounded px-2 mt-auto ml-auto py-2">
-                        Save
-                    </button>
-                </form>
+                        <Select
+                            defaultValue={post?.hour}
+                            inputType="select"
+                            label="Hour"
+                            name="hour"
+                            required
+                            register={register}
+                            options={[{ optionLabel: "16:00", optionValue: "16:00" }, { optionLabel: "19:00", optionValue: "19:00" }]}
+                        />
+                        <button
+                            type="submit"
+                            className="bg-slate-200 text-sm text-black rounded px-2 mt-auto ml-auto py-2">
+                            Save
+                        </button>
+                    </form>
+                }
             </div>
         </div>
     )

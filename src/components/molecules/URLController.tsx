@@ -2,8 +2,9 @@
 import { useState, ChangeEvent } from "react"
 import { Icon, Input } from "../atoms"
 
-export const URLController = ({ setUrl }: {
-    setUrl: React.Dispatch<React.SetStateAction<string>>
+export const URLController = ({ setUrl, url }: {
+    setUrl: React.Dispatch<React.SetStateAction<string>>,
+    url?: string
 }) => {
     const [isUrlVisible, setUrlVisibility] = useState<boolean>(false)
 
@@ -19,6 +20,7 @@ export const URLController = ({ setUrl }: {
             {isUrlVisible &&
                 <div className="w-[90%] px-4 rounded absolute top-2 z-10 pb-4 bg-[#262626] border border-solid border-[#383838]">
                     <Input
+                        defaultValue={url}
                         name="url"
                         placeholder="https://example.com"
                         onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
