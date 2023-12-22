@@ -28,21 +28,23 @@ export const getPosts = async (type: postType, username: string, token: string) 
     })
 }
 
-export const addPost = async (type: postType, post: any) => {
+export const addPost = async (type: postType, post: any, token: string) => {
     return await fetchData(`${NEXT_PUBLIC_BACK_URL}/${type}/bullworth.pics/add`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            "Authorization": token
         },
         body: JSON.stringify(post)
     })
 }
 
-export const updatePost = async (type: postType, id: string, data: any) => {
+export const updatePost = async (type: postType, id: string, data: any, token: string) => {
     return await fetchData(`${NEXT_PUBLIC_BACK_URL}/${type}/update/${id}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
+            "Authorization": token
         },
         body: JSON.stringify(data)
     })

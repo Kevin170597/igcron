@@ -1,6 +1,6 @@
 "use client"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { InputDate, Select, Textarea } from "../atoms"
+import { InputDate, Select, Textarea, Icon } from "../atoms"
 import { PostFormHeader, URLController, URLSController, RenderMedia } from "../molecules"
 import { useState } from "react"
 import { addPost } from "@/services"
@@ -23,14 +23,20 @@ export const CreatePostForm = ({ type }: { type: PostType }) => {
     const { data: session } = useSession()
 
     const [url, setUrl] = useState<string>("")
-    const [items, setItems] = useState<string[]>([''])
+    const [items, setItems] = useState<string[]>([""])
+
+    const [saving, setSaving] = useState<boolean>(false)
+    const [savingResult, setSavingResult] = useState<string | null>(null)
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        setSaving(true)
         type === "album" ? data.urls = items : data.url = url
         data.username = session?.user.username as string
         data.day = moment(data.day).format("DD/MM/YYYY")
         //console.log(data)
-        await addPost(type, data)
+        const response = await addPost(type, data, session?.user.token as string)
+        if (response.error || response._id) setSavingResult(response.error || response._id)
+        setSaving(false)
     }
 
     return (
@@ -82,9 +88,21 @@ export const CreatePostForm = ({ type }: { type: PostType }) => {
                     />
                     <button
                         type="submit"
-                        className="bg-slate-200 text-sm text-black rounded px-2 mt-auto ml-auto py-2">
-                        Save
+                        className="bg-slate-200 text-sm text-black rounded px-2 mt-auto ml-auto py-2"
+                    >
+                        {saving ? (
+                            <Icon iconName="spin" fill="#000" />
+                        ) : (
+                            "Save"
+                        )}
                     </button>
+                    {savingResult &&
+                        <div className="fixed flex items-center justify-center gap-2 text-sm z-30 p-4 top-4 right-4 bg-[#262626] border-l border-l-solid border-l-[#383838] rounded">
+                            {savingResult}
+                            <button onClick={() => setSavingResult(null)}>
+                                <Icon iconName="x" fill="#fff" size={20} />
+                            </button>
+                        </div>}
                 </form>
             </div>
         </div>
