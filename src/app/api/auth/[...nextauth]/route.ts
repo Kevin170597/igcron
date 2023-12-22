@@ -11,10 +11,7 @@ const handler = NextAuth({
                 password: { label: "Contraseña", type: "password" , placeholder: "password" }
             },
             async authorize(credentials, req) {
-                console.log(14, credentials)
                 const user: any = await instagramLogin(credentials?.username as string, credentials?.password as string)
-                
-                console.log(17, user)
                 if (user.error) throw new Error(user.error)
                 return user
             }
