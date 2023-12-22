@@ -42,6 +42,11 @@ export const ListPosts = ({ type }: { type: postType }) => {
                     <StoryCard key={post._id} story={post} />
                 )
             }
+            {posts?.length === 0 &&
+                <div className="flex justify-center items-center bg-[#262626] aspect-square">
+                    <p>Nothing here!</p>
+                </div>
+            }
         </div>
     )
 }

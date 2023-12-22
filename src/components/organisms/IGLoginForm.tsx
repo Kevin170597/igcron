@@ -23,7 +23,6 @@ export const IGLoginForm = () => {
             username: data.username, password: data.password, redirect: false
         })
 
-        console.log(25, responseNextAuth)
         if (responseNextAuth?.error) {
             console.log(responseNextAuth.error.split(","))
             setError(responseNextAuth.error)

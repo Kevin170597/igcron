@@ -1,7 +1,7 @@
 "use client"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { InputDate, Select, Textarea, Icon } from "../atoms"
-import { PostFormHeader, URLController, URLSController, RenderMedia } from "../molecules"
+import { PostFormHeader, URLController, URLSController, RenderMedia, SavingResutlModal } from "../molecules"
 import { useState } from "react"
 import { addPost } from "@/services"
 import moment from "moment"
@@ -21,6 +21,7 @@ type Inputs = {
 export const CreatePostForm = ({ type }: { type: PostType }) => {
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
     const { data: session } = useSession()
+    console.log(session)
 
     const [url, setUrl] = useState<string>("")
     const [items, setItems] = useState<string[]>([""])
@@ -34,7 +35,7 @@ export const CreatePostForm = ({ type }: { type: PostType }) => {
         data.username = session?.user.username as string
         data.day = moment(data.day).format("DD/MM/YYYY")
         //console.log(data)
-        const response = await addPost(type, data, session?.user.token as string)
+        const response = await addPost(type, data, session?.user.username as string, session?.user.token as string)
         if (response.error || response._id) setSavingResult(response.error || response._id)
         setSaving(false)
     }
@@ -96,13 +97,9 @@ export const CreatePostForm = ({ type }: { type: PostType }) => {
                             "Save"
                         )}
                     </button>
-                    {savingResult &&
-                        <div className="fixed flex items-center justify-center gap-2 text-sm z-30 p-4 top-4 right-4 bg-[#262626] border-l border-l-solid border-l-[#383838] rounded">
-                            {savingResult}
-                            <button onClick={() => setSavingResult(null)}>
-                                <Icon iconName="x" fill="#fff" size={20} />
-                            </button>
-                        </div>}
+                    {!savingResult &&
+                        <SavingResutlModal message={savingResult} closeModal={() => setSavingResult(null)} />
+                    }
                 </form>
             </div>
         </div>

@@ -28,8 +28,8 @@ export const getPosts = async (type: postType, username: string, token: string) 
     })
 }
 
-export const addPost = async (type: postType, post: any, token: string) => {
-    return await fetchData(`${NEXT_PUBLIC_BACK_URL}/${type}/bullworth.pics/add`, {
+export const addPost = async (type: postType, post: any, username: string, token: string) => {
+    return await fetchData(`${NEXT_PUBLIC_BACK_URL}/${type}/${username}/add`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

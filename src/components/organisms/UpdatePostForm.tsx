@@ -1,7 +1,7 @@
 "use client"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { InputDate, Select, Textarea, Icon } from "../atoms"
-import { PostFormHeader, URLController, URLSController, RenderMedia } from "../molecules"
+import { PostFormHeader, URLController, URLSController, RenderMedia, SavingResutlModal } from "../molecules"
 import { useState, useEffect } from "react"
 import { updatePost, getPost } from "@/services"
 import moment from "moment"
@@ -114,13 +114,9 @@ export const UpdatePostForm = ({ type, id }: { type: PostType, id: string }) => 
                                 "Save"
                             )}
                         </button>
-                        {savingResult &&
-                            <div className="fixed flex items-center justify-center gap-2 text-sm z-30 p-4 top-4 right-4 bg-[#262626] border-l border-l-solid border-l-[#383838] rounded">
-                                {savingResult}
-                                <button onClick={() => setSavingResult(null)}>
-                                    <Icon iconName="x" fill="#fff" size={20} />
-                                </button>
-                            </div>}
+                        {!savingResult &&
+                            <SavingResutlModal message={savingResult} closeModal={() => setSavingResult(null)} />
+                        }
                     </form>
                 }
             </div>
