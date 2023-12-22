@@ -3,7 +3,7 @@ import { useState, ChangeEvent } from "react"
 import { Icon, Input } from "../atoms"
 
 export const URLController = ({ setUrl, url }: {
-    setUrl: React.Dispatch<React.ateAction<string>>,
+    setUrl: React.Dispatch<React.SetStateAction<string>>,
     url?: string
 }) => {
     const [isUrlVisible, setUrlVisibility] = useState<boolean>(false)
