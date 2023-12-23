@@ -21,7 +21,6 @@ type Inputs = {
 export const CreatePostForm = ({ type }: { type: PostType }) => {
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
     const { data: session } = useSession()
-    console.log(session)
 
     const [url, setUrl] = useState<string>("")
     const [items, setItems] = useState<string[]>([""])
@@ -41,13 +40,8 @@ export const CreatePostForm = ({ type }: { type: PostType }) => {
     }
 
     return (
-        <div className="bg-[#262626] rounded border border-solid border-[#383838] 
-            flex flex-col sm:flex-col md:flex-row lg:flex-row h-fit sm:h-fit md:h-[80%] lg:h-[80%] w-full sm:w-full md:w-[60%] lg:w-[60%]"
-        >
-            <div className={`relative flex justify-center w-full sm:w-full h-[72vh]
-                ${(type === "album" || type === "photo") && "md:w-[50%] lg:w-[50%]"} 
-                ${(type === "story" || type === "reel") && "md:w-[35%] lg:w-[35%]"}`}
-            >
+        <div className="bg-[#262626] rounded border border-solid border-[#383838] flex flex-col sm:flex-col md:flex-row lg:flex-row h-fit sm:h-fit md:h-[80%] lg:h-[80%] w-full sm:w-full md:w-[60%] lg:w-[60%]">
+            <div className={`relative flex justify-center w-full sm:w-full h-[72vh] ${(type === "album" || type === "photo") && "md:w-[50%] lg:w-[50%]"} ${(type === "story" || type === "reel") && "md:w-[35%] lg:w-[35%]"}`}>
                 {type === "album" ? (
                     <>
                         <URLSController items={items} setItems={setItems} />
@@ -60,10 +54,7 @@ export const CreatePostForm = ({ type }: { type: PostType }) => {
                     </>
                 )}
             </div>
-            <div className={`p-4 border-l border-l-solid border-l-[#383838] w-full sm:w-full
-                ${(type === "album" || type === "photo") && "md:w-[50%] lg:w-[50%]"} 
-                ${(type === "story" || type === "reel") && "md:w-[65%] lg:w-[65%]"}`}
-            >
+            <div className={`p-4 border-l border-l-solid border-l-[#383838] w-full sm:w-full ${(type === "album" || type === "photo") && "md:w-[50%] lg:w-[50%]"} ${(type === "story" || type === "reel") && "md:w-[65%] lg:w-[65%]"}`}>
                 <PostFormHeader type={type} />
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {type !== "story" &&
@@ -97,7 +88,7 @@ export const CreatePostForm = ({ type }: { type: PostType }) => {
                             "Save"
                         )}
                     </button>
-                    {!savingResult &&
+                    {savingResult &&
                         <SavingResutlModal message={savingResult} closeModal={() => setSavingResult(null)} />
                     }
                 </form>

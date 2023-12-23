@@ -3,10 +3,11 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { InputDate, Select, Textarea, Icon } from "../atoms"
 import { PostFormHeader, URLController, URLSController, RenderMedia, SavingResutlModal } from "../molecules"
 import { useState, useEffect } from "react"
-import { updatePost, getPost } from "@/services"
+import { updatePost, getPost, deletePost } from "@/services"
 import moment from "moment"
 import { useSession } from "next-auth/react"
 import { PostInterface } from "@/interfaces"
+import { useRouter } from "next/navigation"
 
 type PostType = "album" | "photo" | "story" | "reel"
 
@@ -22,6 +23,7 @@ type Inputs = {
 export const UpdatePostForm = ({ type, id }: { type: PostType, id: string }) => {
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
     const { data: session } = useSession()
+    const router = useRouter()
 
     const [post, setPost] = useState<PostInterface | null>(null)
     const [url, setUrl] = useState<string>(post?.url || "")
@@ -53,14 +55,16 @@ export const UpdatePostForm = ({ type, id }: { type: PostType, id: string }) => 
         setSaving(false)
     }
 
+    const onDelete = async () => {
+        await deletePost(type, id)
+        router.back()
+    }
+
     return (
         <div className="bg-[#262626] rounded border border-solid border-[#383838] 
             flex flex-col sm:flex-col md:flex-row lg:flex-row h-fit sm:h-fit md:h-[80%] lg:h-[80%] w-full sm:w-full md:w-[60%] lg:w-[60%]"
         >
-            <div className={`relative flex justify-center w-full sm:w-full h-[72vh]
-                ${(type === "album" || type === "photo") && "md:w-[50%] lg:w-[50%]"} 
-                ${(type === "story" || type === "reel") && "md:w-[35%] lg:w-[35%]"}`}
-            >
+            <div className={`relative flex justify-center w-full sm:w-full h-[72vh] ${(type === "album" || type === "photo") && "md:w-[50%] lg:w-[50%]"} ${(type === "story" || type === "reel") && "md:w-[35%] lg:w-[35%]"}`}>
                 {type === "album" ? (
                     <>
                         <URLSController items={items} setItems={setItems} />
@@ -73,10 +77,7 @@ export const UpdatePostForm = ({ type, id }: { type: PostType, id: string }) => 
                     </>
                 )}
             </div>
-            <div className={`p-4 border-l border-l-solid border-l-[#383838] w-full sm:w-full
-                ${(type === "album" || type === "photo") && "md:w-[50%] lg:w-[50%]"} 
-                ${(type === "story" || type === "reel") && "md:w-[65%] lg:w-[65%]"}`}
-            >
+            <div className={`p-4 border-l border-l-solid border-l-[#383838] w-full sm:w-full ${(type === "album" || type === "photo") && "md:w-[50%] lg:w-[50%]"} ${(type === "story" || type === "reel") && "md:w-[65%] lg:w-[65%]"}`}>
                 <PostFormHeader type={type} />
                 {post &&
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -104,17 +105,26 @@ export const UpdatePostForm = ({ type, id }: { type: PostType, id: string }) => 
                             register={register}
                             options={[{ optionLabel: "16:00", optionValue: "16:00" }, { optionLabel: "19:00", optionValue: "19:00" }]}
                         />
-                        <button
-                            type="submit"
-                            className="bg-slate-200 text-sm text-black rounded px-2 mt-auto ml-auto py-2"
-                        >
-                            {saving ? (
-                                <Icon iconName="spin" fill="#000" />
-                            ) : (
-                                "Save"
-                            )}
-                        </button>
-                        {!savingResult &&
+                        <div className="flex justify-between">
+                            <button
+                                onClick={() => onDelete()}
+                                type="button"
+                                className="bg-[#383838] text-sm text-black rounded px-2 mt-auto py-2"
+                            >
+                                <Icon iconName="delete" fill="#fff" size={20} />
+                            </button>
+                            <button
+                                type="submit"
+                                className="bg-slate-200 text-sm text-black rounded px-2 mt-auto py-2"
+                            >
+                                {saving ? (
+                                    <Icon iconName="spin" fill="#000" />
+                                ) : (
+                                    "Save"
+                                )}
+                            </button>
+                        </div>
+                        {savingResult &&
                             <SavingResutlModal message={savingResult} closeModal={() => setSavingResult(null)} />
                         }
                     </form>
